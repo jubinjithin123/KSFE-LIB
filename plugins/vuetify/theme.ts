@@ -26,9 +26,9 @@ export const themes: Record<string, ThemeDefinition> = {
       'error-darken-1': '#E64449',
       'on-error': '#fff',
       'background': '#FFFFFF',
-      'on-background': '#424242',
-      'surface': '#fff',
-      'on-surface': '#8dd487',
+      'on-background': '#8dd487',
+      'surface': '#2f3645',
+      'on-surface': '#fff',
       'grey-50': '#FAFAFA',
       'grey-100': '#F5F5F5',
       'grey-200': '#EEEEEE',
@@ -61,8 +61,10 @@ export const themes: Record<string, ThemeDefinition> = {
       'disabled-opacity': 0.4,
       'border-color': '#2E263D',
       'border-opacity': 0.12,
-     // 'table-header-color': '#8dd487',
-      'table-header-color': '#000090',
+
+      // 'table-header-color': '#8dd487',
+
+      'table-header-color': '#8dd487',
       'high-emphasis-opacity': 0.9,
       'medium-emphasis-opacity': 0.7,
 
