@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import AuthProvider from '@/views/pages/authentication/AuthProvider.vue'
 
 import { themeConfig } from '@themeConfig'
 
@@ -142,36 +141,18 @@ definePageMeta({
                 </VBtn>
               </VCol>
 
-              <!-- create account -->
-              <VCol
-                cols="12"
-                class="text-center text-base"
-              >
-                <span>New on our platform?</span>
-                <a
-                  class="text-primary"
-                  href="#"
-                >
-                  Create an account
-                </a>
-              </VCol>
 
-              <VCol
-                cols="12"
-                class="d-flex align-center"
-              >
-                <VDivider />
-                <span class="mx-2 text-high-emphasis">or</span>
-                <VDivider />
-              </VCol>
-
-              <!-- auth providers -->
+              <!-- auth providers 
+              
               <VCol
                 cols="12"
                 class="text-center"
               >
                 <AuthProvider />
               </VCol>
+              
+              -->
+
             </VRow>
           </VForm>
         </VCardText>

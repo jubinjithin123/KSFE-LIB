@@ -1,10 +1,18 @@
 
 <template>
-  <VContainer>
+<v-card > <br>
+  
+<VRow>
+        <VCardText>
+            <VTextField
+              v-model="search"
+              label="Search"
+              placeholder="Search ..."
+              append-inner-icon="ri-search-line"
+            />
+          </VCardText>
 
 <!-- 👉 Create Dialog  -->
-
-<VRow>
       <VCol class="text-right">
 
               <VDialog  v-model="createDialog"  max-width=70% >
@@ -145,9 +153,6 @@
                 />
                 </VCol>
 
-
-
-
                 <VCol offset-md="3"  cols="12"  md="9" class="d-flex gap-4" >                          
                                    <VSpacer />
                                 <VBtn color="success" @click="validateDataForm"> Save  </VBtn>
@@ -155,46 +160,21 @@
                                 <VBtn color="secondary"  type="reset"  > Reset    </VBtn>
                   </VCol>
 
-
               </VRow>
            </VForm>
         </VCardText>
     </VCard>
-
                 
   </VDialog>
 
       </VCol>
     </VRow>
     
-
-
  <!--End of Dialog  -->
 
 
- <VCardText>
-      <VRow>
-        <VCol
-          cols="12"
-          offset-md="8"
-          md="4"
-        >
-          <VTextField
-            v-model="search"
-            label="Search"
-            placeholder="Search ..."
-            append-inner-icon="ri-search-line"
-            single-line
-            hide-details
-            dense
-            outlined
-          />
-        </VCol>
-      </VRow>
-    </VCardText>
 
 <!-- 👉 Data Table  --> 
-
 <VDataTable
     :headers="headers"
     :items="books"
@@ -219,17 +199,18 @@
       <template #item.actions="{ item }">
       <div class="d-flex gap-1">
         <IconBtn color="warning" size="small" >
-          <VIcon icon="ri-pencil-line" />
+          <VIcon  icon="ri-pencil-line"  @click="editItem(item)" />
         </IconBtn>
         <IconBtn color="error" size="small"  @click="deleteItem(item)"   >
           <VIcon icon="ri-delete-bin-line" />
         </IconBtn>
       </div>
     </template>
-
   </VDataTable>
 
 <!--End of Data Table  -->
+
+</v-card>
 
 
 
@@ -250,9 +231,190 @@
 </VDialog>
 <!--End of Delete Dialog  -->
 
+    <!-- 👉 Edit Dialog  -->
+    <VDialog
+      v-model="editDialog"
+      max-width="600"
+    >
+      <!-- Dialog Content -->
+      <VCard title="Edit Book">
+        <DialogCloseBtn
+          variant="text"
+          size="default"
+          @click="editDialog = false"
+        />
+        <VCardText>
+                <VForm  ref="refDataForm" >
+                  <VRow>
+                    <!-- 👉 Shelf Name -->
+                    <VCol
+                      cols="12"
+                      md="6"
+                    >
+                      <VAutocomplete
+                      label="Shelf Name"
+                      :items="book_shelves.map(x=> x.shelf_name)"
+                      v-model="dataForm.shelf_name"
+                      placeholder="Select Shelf Name"
+                      :rules="[requiredValidator]"
+                    />
+                    </VCol>
 
- </VContainer>
+                    <!-- 👉 Section No -->
+                    <VCol
+                      cols="12"
+                      md="6"
+                    >
+                    <VTextField
+                      v-model="dataForm.section_no"
+                      label="Section No"
+                      placeholder="Enter total no of sections"
+                      :rules="[requiredValidator,integerValidator]"                      
+                    />
+                  </VCol>
 
+                    <!-- 👉 Book Name -->
+                    <VCol
+                      cols="12"
+                      md="6"
+                    >
+                    <VTextField
+                        v-model="dataForm.book_name"
+                        label="Book Name"
+                        placeholder="Enter Book Name"
+                        :rules="[requiredValidator,lengthValidator(dataForm.book_name,3)]"                        
+                      />
+                    </VCol>
+
+                  <!-- 👉 Category Name -->
+                  <VCol
+                    cols="12"
+                    md="6"
+                  >
+                  <VAutocomplete
+                  label="Category Name"
+                  :items="categories.map(x=> x.category_name)"
+                  v-model="dataForm.category_name"
+                  placeholder="Select Category Name"
+                  :rules="[requiredValidator]"
+                 />
+                  </VCol>
+
+                  <!-- 👉 Author Name -->
+                  <VCol
+                    cols="12"
+                    md="6"
+                  >
+                  <VAutocomplete
+                  label="Author Name"
+                  :items="author.map(x=> x.author_name)"
+                  v-model="dataForm.author_name"
+                  placeholder="Select Author Name"
+                  :rules="[requiredValidator]"
+                 />
+                  </VCol>
+
+                <!-- 👉 Publisher Name -->
+                <VCol
+                  cols="12"
+                  md="6"
+                >
+                  <VAutocomplete
+                  label="Publisher Name"
+                  :items="publishers.map(x=> x.publisher_name)"
+                  v-model="dataForm.publisher_name"
+                  placeholder="Select Publisher Name"
+                  :rules="[requiredValidator]"
+                 />
+                </VCol>
+
+                <!-- 👉 ISBN Name -->
+                <VCol
+                  cols="12"
+                  md="6"
+                >
+                <VTextField
+                    v-model="dataForm.ISBN"
+                    label="ISBN Number"
+                    placeholder="Enter ISBN Number"
+                    :rules="[requiredValidator,lengthValidator(dataForm.ISBN,3)]"                        
+                  />
+                </VCol>
+
+                <!-- 👉 Amount -->
+                <VCol
+                  cols="12"
+                  md="6"
+                >
+                <VTextField
+                    v-model="dataForm.amount"
+                    label="Amount"
+                    placeholder="Enter Amount"
+                    :rules="[requiredValidator]"                        
+                  />
+                </VCol>
+
+                <!-- 👉 Status -->
+                <VCol
+                  cols="12"
+                  md="6"
+                >
+                <VCombobox
+                    v-model="dataForm.status"
+                    :items="bookStatus"
+                    label="Status"
+                    placeholder="Enter status"
+                    :rules="[requiredValidator]"                        
+                  />
+                </VCol>
+
+                <!-- 👉 Description -->
+                <VCol
+                  cols="12"
+                >
+                <VTextarea
+                  v-model="dataForm.description"
+                  label="Description"
+                  placeholder="Enter Description"
+                  auto-grow
+                />
+                </VCol>
+
+
+
+                <VCol
+                offset-md="3"
+                cols="12"
+                md="9"
+                class="d-flex gap-4"
+              >
+                <VSpacer />
+                <VBtn
+                  color="success"
+                  @click="validateEditDataForm"
+                >
+                  Update
+                </VBtn>
+                <VBtn
+                  color="error"
+                  @click="editDialog = false"
+                >
+                  Close
+                </VBtn>
+                <VBtn
+                  color="secondary"
+                  type="reset"
+                >
+                  Reset
+                </VBtn>
+              </VCol>
+
+              </VRow>
+           </VForm>
+        </VCardText>
+      </VCard>
+    </VDialog>
+    <!-- End of Edit Dialog  -->
  
 </template>
 
@@ -295,23 +457,14 @@ await getAllPublisher(),{ initialCache: false }
 const {publishers} = storeToRefs(publisherStore);
 
 
-
   // Method used to remove Book
 	const removeCategory = async (item :any) => {
 		await bookStore.remove(item._id);
     deleteDialog.value = false;
 	};
-const deleteDialog = ref(false)
-let delete_var :any;
-const deleteItem = (item:any) => {
- // editedIndex.value = userList.value.indexOf(item)
- // editedItem.value = { ...item }
-  deleteDialog.value = true
-  delete_var =item;
-}
 
 
-
+//* ***************Start CRUD Dialog********************
 const createDialog = ref(false)
 const refDataForm = ref<VForm>()
 const dataForm = ref({
@@ -327,6 +480,25 @@ const dataForm = ref({
   status: 'Available',
   description: '',
 })
+
+const editDialog = ref(false)
+let edit_var: any
+
+const editItem = (item: any) => {
+  editDialog.value = true
+  dataForm.value = item
+  edit_var = item
+}
+
+const deleteDialog = ref(false)
+let delete_var: any
+
+const deleteItem = (item: any) => {
+  deleteDialog.value = true
+  delete_var = item
+}
+
+//* ***************End CRUD Dialog********************
 
 const validateDataForm =  () => {
    refDataForm.value?.validate().then(valid => {
@@ -352,6 +524,29 @@ const validateDataForm =  () => {
   })
 } // End of validatedataForm()
 
+const validateEditDataForm = () => {
+  refDataForm.value?.validate().then(valid => {
+    if (valid.valid) {
+      const item: IBook = {
+        shelf_name : String(dataForm.value.shelf_name) ,
+        section_no : Number(dataForm.value.section_no) ,
+        book_name : dataForm.value.book_name ,
+        category_name : String(dataForm.value.category_name) ,
+        author_name : String(dataForm.value.author_name),
+        publisher_name : String(dataForm.value.publisher_name) ,
+        ISBN : dataForm.value.ISBN ,
+        amount :Number(dataForm.value.amount) ,
+        no_of_copies : Number(dataForm.value.no_of_copies) ,
+        status : dataForm.value.status ,
+        description : dataForm.value.description ,
+      }
+
+      bookStore.update(edit_var._id, item)
+    }
+    else { }
+  })
+} // End of validateEditDataForm()
+
 const headers = [
   { title: 'STOCK NO', key: 'book_Id' },
   { title: 'SHELF NAME', key: 'shelf_name' },
@@ -359,7 +554,6 @@ const headers = [
   { title: 'BOOK NAME', key: 'book_name' },
   { title: 'AUTHOR NAME', key: 'author_name' },
   { title: 'CATEGORY NAME', key: 'category_name' },
-  { title: 'AVAILABLE COPIES', key: 'no_of_copies' },
   { title: 'STATUS', key: 'status' },
   { title: 'ACTIONS', key: 'actions' },
 ]
@@ -377,6 +571,7 @@ const resolveStatusColor = (status: string) => {
 }
 
 
+const bookStatus = ['Available', 'UnAvailable']
 
 </script>
 

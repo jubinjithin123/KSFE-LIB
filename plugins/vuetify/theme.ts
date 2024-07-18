@@ -27,7 +27,7 @@ export const themes: Record<string, ThemeDefinition> = {
       'on-error': '#fff',
       'background': '#FFFFFF',
       'on-background': '#8dd487',
-      'surface': '#2f3645',
+      'surface': '#1d3b6d',
       'on-surface': '#fff',
       'grey-50': '#FAFAFA',
       'grey-100': '#F5F5F5',
@@ -62,7 +62,7 @@ export const themes: Record<string, ThemeDefinition> = {
       'border-color': '#2E263D',
       'border-opacity': 0.12,
 
-      // 'table-header-color': '#8dd487',
+      // 'table-header-color': '#8dd487'  BA274A,
 
       'table-header-color': '#8dd487',
       'high-emphasis-opacity': 0.9,

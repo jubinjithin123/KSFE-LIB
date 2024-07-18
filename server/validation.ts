@@ -81,13 +81,15 @@ export const UserLoginSchema = Joi.object({
 export const IssueBookSchema = Joi.object({
   issue_Id: Joi.number(),
   book_Id: Joi.number(),
-  book_name: Joi.string().min(3).required(),
+  book_name: Joi.string(),
   issue_Date: Joi.date(),
+  due_Date: Joi.date(),
   return_Date: Joi.date(),
   employee_Id: Joi.string().min(3).required(),
-  employee_Name: Joi.string().min(3).required(),
-  status : Joi.string().required(),
+  employee_Name: Joi.string(),
+  status : Joi.string(),
   br_code: Joi.number(),
+  fine: Joi.number().allow(null).optional(),
 
   Branch:Joi.object({
         code: Joi.number().required(),

@@ -17,6 +17,16 @@ export default defineEventHandler(async (event) => {
 		});
 	}
 
+  const employeeStatus :any = await UserLoginModel.findOne({ userName: body.userName }).exec();
+  if(employeeStatus)
+ {
+  throw createError({
+    message:"This User Already Exist !",
+    statusCode: 400,
+    fatal: false,
+  });
+ }
+ 
 	// create Branch
 	try { 
 

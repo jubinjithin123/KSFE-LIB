@@ -4,7 +4,6 @@ const schema: mongoose.Schema = new mongoose.Schema(
 	{
     issue_Id: {
 			type: Number,
-			requied: true,
 		},
     book_Id: {
 			type: Number,
@@ -12,9 +11,11 @@ const schema: mongoose.Schema = new mongoose.Schema(
 		},
     book_name: {
 			type: String,
-			required: true,
 		},
     issue_Date: {
+			type: Date,
+		},
+    due_Date: {
 			type: Date,
 			requied: true,
 		},
@@ -28,7 +29,6 @@ const schema: mongoose.Schema = new mongoose.Schema(
 		},
     employee_Name: {
 			type: String,
-			required: true,
 		},
     br_code:{
       type: Number,
@@ -45,6 +45,10 @@ const schema: mongoose.Schema = new mongoose.Schema(
     return_Remarks: {
 			type: String,
 		},
+
+    fine:{
+      type: Number,
+    },
 
 	},
 	{ timestamps: true }

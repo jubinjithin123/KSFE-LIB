@@ -31,12 +31,12 @@ export const useUserLoginStore = defineStore("userlogins", {
 				method: "POST",
 				body: Employee,
 			})
-      .catch((e) => {
-        toast.error(e.data.message);
-      })
       .then(async () => {
         await this.getAllEmplolyee();
         toast.success("Employee created");
+      })
+      .catch((e: any) => {
+        toast.error(e.data.message);
       });
   },
 

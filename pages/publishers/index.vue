@@ -1,8 +1,18 @@
 <template>
-  <VContainer>
 
-<!-- 👉 Create Dialog  -->
-    <VRow>
+<v-card > <br>
+
+  <VRow>
+        <VCardText>
+            <VTextField
+              v-model="search"
+              label="Search"
+              placeholder="Search ..."
+              append-inner-icon="ri-search-line"
+            />
+        </VCardText>
+
+  <!-- 👉 Create Dialog  -->
       <VCol class="text-right">
 
               <VDialog  v-model="createDialog"  max-width="600"  >
@@ -53,29 +63,7 @@
  <!--End of Dialog  -->
 
 
- <VCardText>
-      <VRow>
-        <VCol
-          cols="12"
-          offset-md="8"
-          md="4"
-        >
-          <VTextField
-            v-model="search"
-            label="Search"
-            placeholder="Search ..."
-            append-inner-icon="ri-search-line"
-            single-line
-            hide-details
-            dense
-            outlined
-          />
-        </VCol>
-      </VRow>
-    </VCardText>
-
 <!-- 👉 Data Table  --> 
-
 <VDataTable
     :headers="headers"
     :items="publishers"
@@ -88,17 +76,18 @@
       <template #item.actions="{ item }">
       <div class="d-flex gap-1">
         <IconBtn color="warning" size="small" >
-          <VIcon icon="ri-pencil-line" />
+          <VIcon icon="ri-pencil-line" @click="editItem(item)"/>
         </IconBtn>
         <IconBtn color="error" size="small"  @click="deleteItem(item)"   >
           <VIcon icon="ri-delete-bin-line" />
         </IconBtn>
       </div>
     </template>
-
   </VDataTable>
-
 <!--End of Data Table  -->
+
+</v-card>
+
 
 
 
@@ -120,8 +109,62 @@
 <!--End of Delete Dialog  -->
 
 
- </VContainer>
+    <!-- 👉 Edit Dialog  -->
+    <VDialog
+      v-model="editDialog"
+      max-width="600"
+    >
+      <!-- Dialog Content -->
+      <VCard title="Edit Publisher Name">
+        <DialogCloseBtn
+          variant="text"
+          size="default"
+          @click="editDialog = false"
+        />
+        <VCardText>
+          <VForm ref="refDataForm">
+            <VRow>
+              <VCol cols="12">
+                <VTextField
+                  v-model="dataForm.publisher_name"
+                  label="Publisher Name"
+                  placeholder="Enter Publisher Name"
+                  :rules="[requiredValidator, lengthValidator(dataForm.publisher_name, 3)]"
+                />
+              </VCol>
 
+              <VCol
+                offset-md="3"
+                cols="12"
+                md="9"
+                class="d-flex gap-4"
+              >
+                <VSpacer />
+                <VBtn
+                  color="success"
+                  @click="validateEditDataForm"
+                >
+                  Update
+                </VBtn>
+                <VBtn
+                  color="error"
+                  @click="editDialog = false"
+                >
+                  Close
+                </VBtn>
+                <VBtn
+                  color="secondary"
+                  type="reset"
+                >
+                  Reset
+                </VBtn>
+              </VCol>
+            </VRow>
+          </VForm>
+        </VCardText>
+      </VCard>
+    </VDialog>
+    <!-- End of Edit Dialog  -->
  
 </template>
 
@@ -150,23 +193,33 @@ import { VForm } from 'vuetify/components/VForm';
 	};
 
 
-const deleteDialog = ref(false)
-
-let delete_var :any;
-const deleteItem = (item:any) => {
- // editedIndex.value = userList.value.indexOf(item)
- // editedItem.value = { ...item }
-  deleteDialog.value = true
-  delete_var =item;
-}
-
-
-
+//* ***************Start CRUD Dialog********************
 const createDialog = ref(false)
 const refDataForm = ref<VForm>()
 const dataForm = ref({
   publisher_name: '',
 })
+
+
+const editDialog = ref(false)
+let edit_var: any
+
+const editItem = (item: any) => {
+  editDialog.value = true
+  dataForm.value = item
+  edit_var = item
+}
+
+
+const deleteDialog = ref(false)
+let delete_var: any
+
+const deleteItem = (item: any) => {
+  deleteDialog.value = true
+  delete_var = item
+}
+
+//* ***************End CRUD Dialog********************
 
 const validateDataForm =  () => {
    refDataForm.value?.validate().then(valid => {
@@ -181,6 +234,20 @@ const validateDataForm =  () => {
     else {  }     
   })
 } // End of validatedataForm()
+
+
+const validateEditDataForm = () => {
+  refDataForm.value?.validate().then(valid => {
+    if (valid.valid) {
+      const item: IPublisher = {
+        publisher_name: dataForm.value.publisher_name,
+      }
+      
+      publisherStore.update(edit_var._id, item)
+    }
+    else { }
+  })
+} // End of validateEditDataForm()
 
 const headers = [
   { title: 'ID', key: 'publisher_Id' },

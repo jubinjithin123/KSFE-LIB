@@ -70,19 +70,21 @@ declare global{
 
   export interface IIssueBook {
     issue_Id?: number;
-    book_Id?: number;
-    book_name: string;
-    issue_Date: Date;
-    return_Date: Date;
+    book_Id: number;
+    book_name?: string;
+    issue_Date?: Date;
+    due_Date: Date;
+    return_Date?: Date;
     employee_Id: string;
-    employee_Name: string;
+    employee_Name?: string;
     br_code?: number;
-    Branch:{ 
+    fine?: number;
+    Branch?:{ 
            code:Number,name: String, district: String, contactNumber?: string, status?: number
            parentBranch: { code:Number,name: String, district: String },
            };
-    status: string;
-    return_Remarks: string;
+    status?: string;
+    return_Remarks?: string;
     _id?: string;
   }
 

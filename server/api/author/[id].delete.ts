@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
 	try {
 		await AuthorModel.findByIdAndDelete(id);
 		return { message: "Book Author removed" };
-	} catch (e) {
+	} catch (e :any) {
 		throw createError({
 			message: e.message,
 		});

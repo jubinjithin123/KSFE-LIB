@@ -1,26 +1,24 @@
 <template>
-  <VContainer>
+
+<v-card > <br>
+
+
+  <VRow>
+      <VCardText>
+          <VTextField
+            v-model="search"
+            label="Search"
+            placeholder="Search ..."
+            append-inner-icon="ri-search-line"
+            single-line
+            hide-details
+            dense
+            outlined               
+          />
+      </VCardText> 
 
 <!-- 👉 Create Dialog  -->
-  <VRow>
-
-
-      <VCardText>
-            <VTextField
-              v-model="search"
-              label="Search"
-              placeholder="Search ..."
-              append-inner-icon="ri-search-line"
-              single-line
-              hide-details
-              dense
-              outlined               
-            />
-    </VCardText>
-
-
       <VCol class="text-right">
-
               <VDialog  v-model="createDialog"  max-width="600"  >
                   <!-- Dialog Activator -->
                   <template #activator="{ props }">
@@ -42,8 +40,8 @@
                               <VCol  cols="12" >
                                 <VTextField
                                   v-model="dataForm.category_name"
-                                  label="Author Name"
-                                  placeholder="Enter Author Name"
+                                  label="Category Name"
+                                  placeholder="Enter Category Name"
                                   :rules="[requiredValidator,lengthValidator(dataForm.category_name,3)]"
                                  
                                 />
@@ -65,15 +63,9 @@
           </VDialog>
 
       </VCol>
-
-
-
     </VRow>
  <!--End of Dialog  -->
 
-
-
-    
 
 <!-- 👉 Data Table  --> 
 
@@ -100,7 +92,7 @@
   </VDataTable>
 
 <!--End of Data Table  -->
-
+</v-card>
 
 
 <!-- 👉 Delete Dialog  -->
@@ -156,9 +148,6 @@
             </VCard>                
         </VDialog>
 <!--End of Edit Dialog  -->
-
-
-  </VContainer>
 
  </template>
 

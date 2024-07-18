@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { storeToRefs } from 'pinia'
-import { VForm } from 'vuetify/components/VForm'
+import { storeToRefs } from 'pinia';
+import { VForm } from 'vuetify/components/VForm';
 
 // Category store
 const bookShelfStore = useBookShelfStore()
@@ -87,35 +87,37 @@ const headers = [
 const search = ref('')
 </script>
 
-<template>
-  <VContainer>
-    <!-- 👉 Create Dialog  -->
-    <VRow>
-      <VCardText>
-        <VTextField
-          v-model="search"
-          label="Search"
-          placeholder="Search ..."
-          append-inner-icon="ri-search-line"
-          single-line
-          hide-details
-          dense
-          outlined
-          variant="outlined"
-        />
-      </VCardText>
 
+
+
+<template>
+
+<v-card > <br>
+
+    <VRow>
+
+        <VCardText>
+          <VTextField
+            v-model="search"
+            label="Search"
+            placeholder="Search ..."
+            append-inner-icon="ri-search-line"
+          />
+        </VCardText>
+
+
+      <!-- 👉 Create Dialog  -->
       <VCol class="text-right">
         <VDialog
           v-model="createDialog"
           max-width="600"
         >
-          <!-- Dialog Activator -->
-          <template #activator="{ props }">
-            <VBtn v-bind="props">
-              Add New Book Shelf
-            </VBtn>
-          </template>
+            <!-- Dialog Activator -->
+            <template #activator="{ props }">
+              <VBtn v-bind="props">
+                Add New Book Shelf
+              </VBtn>
+            </template>
 
           <!-- Dialog Content -->
           <VCard title="Add Book Shelf">
@@ -177,11 +179,13 @@ const search = ref('')
           </VCard>
         </VDialog>
       </VCol>
-    </VRow>
+  </VRow>
     <!-- End of Dialog  -->
 
-    <!-- 👉 Data Table  -->
 
+
+
+  <!-- 👉 Data Table  -->
     <VDataTable
       :headers="headers"
       :items="book_shelves"
@@ -192,27 +196,20 @@ const search = ref('')
       <!-- Actions -->
       <template #item.actions="{ item }">
         <div class="d-flex gap-1">
-          <IconBtn
-            color="warning"
-            size="small"
-          >
-            <VIcon
-              icon="ri-pencil-line"
-              @click="editItem(item)"
-            />
+          <IconBtn color="warning"  size="small" >
+            <VIcon  icon="ri-pencil-line"  @click="editItem(item)" />
           </IconBtn>
-          <IconBtn
-            color="error"
-            size="small"
-            @click="deleteItem(item)"
-          >
+          <IconBtn color="error" size="small" @click="deleteItem(item)" >
             <VIcon icon="ri-delete-bin-line" />
           </IconBtn>
         </div>
       </template>
     </VDataTable>
-
     <!-- End of Data Table  -->
+
+</v-card>
+
+
 
     <!-- 👉 Delete Dialog  -->
     <VDialog
@@ -245,6 +242,7 @@ const search = ref('')
       </VCard>
     </VDialog>
     <!-- End of Delete Dialog  -->
+    
 
     <!-- 👉 Edit Dialog  -->
     <VDialog
@@ -311,5 +309,14 @@ const search = ref('')
       </VCard>
     </VDialog>
     <!-- End of Edit Dialog  -->
-  </VContainer>
+
+
+
 </template>
+
+
+<style scoped>
+.v-text-field--outlined >>> fieldset {
+  border-color: rgb(0, 4, 250);
+}
+</style>
