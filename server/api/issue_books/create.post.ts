@@ -73,7 +73,7 @@ if(body.issue_Date === body.due_Date){
           });
        }
 
-const bookIssueStatus :any = await IssueBookModel.findOne({ employee_Id: body.employee_Id }).exec();
+const bookIssueStatus :any = await IssueBookModel.findOne( { $and: [  { userName: body.employee_Id }, { status: "Returned" } ]}).exec();
     if(bookIssueStatus){
       throw createError({
         message:"This User Already taken a Book !",

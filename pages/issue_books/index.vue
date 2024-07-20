@@ -121,18 +121,20 @@
         <!-- Actions -->
         <template #item.actions="{ item }">
         <div class="d-flex gap-1">
-          <IconBtn color="warning" size="small" >
-            <VIcon  icon="ri-pencil-line"  @click="editItem(item)" />
+
+          <IconBtn color="warning" size="small" v-if="item.status ==  'Issued' " >
+           R <VIcon  icon="ri-book-fill"  @click="editItem(item)" />
           </IconBtn>
+
           <IconBtn color="error" size="small"  @click="deleteItem(item)"   >
             <VIcon icon="ri-delete-bin-line" />
           </IconBtn>
+
         </div>
       </template>
     </VDataTable>
   
   <!--End of Data Table  -->
-  
   </v-card>
   
   
@@ -153,11 +155,84 @@
       </VCard>
   </VDialog>
   <!--End of Delete Dialog  -->
+
+
+
+    <!-- 👉 Return Confirmation -->
+    <VDialog   v-model="confirmDialog"  max-width="500px" max-height="500px"  >
+      <VCard>
+        <VCardTitle>
+          Are you sure ?
+        </VCardTitle>
   
-      <!-- 👉 Edit Dialog  -->
-      
-      <!-- End of Edit Dialog  -->
-   
+        <VCardActions>
+          <VSpacer />
+          <VBtn  color="success"  variant="elevated"  @click="validateEditDataForm" > OK </VBtn>
+          <VBtn color="error" variant="outlined" @click="confirmDialog = false" > Cancel  </VBtn>
+          <VSpacer />
+        </VCardActions>
+      </VCard>
+  </VDialog>
+  <!--End of Delete Dialog  -->
+
+  
+    <!-- 👉 Return Book Dialog  -->
+    <VDialog
+      v-model="editDialog"
+      max-width="600"
+    >
+      <!-- Dialog Content -->
+      <VCard title="Return Book">
+        <DialogCloseBtn
+          variant="text"
+          size="default"
+          @click="editDialog = false"
+        />
+        <VCardText>
+                <VForm  ref="refDataForm" >
+                  <VRow>
+
+              <VTextarea
+              v-model="dataForm.return_Remarks"
+              label="Remarks"
+              placeholder="Enter Remarks"
+              :rules="[requiredValidator, lengthValidator(dataForm.return_Remarks, 3)]"
+            />
+
+                <VCol
+                offset-md="3"
+                cols="12"
+                md="9"
+                class="d-flex gap-4"
+              >
+                <VSpacer />
+                <!--@click="validateEditDataForm"-->
+                <VBtn
+                  color="success"              
+                @click="confirmItem()" 
+                >
+                  Return
+                </VBtn>
+                <VBtn
+                  color="error"
+                  @click="editDialog = false"
+                >
+                  Close
+                </VBtn>
+                <VBtn
+                  color="secondary"
+                  type="reset"
+                >
+                  Reset
+                </VBtn>
+              </VCol>
+
+              </VRow>
+           </VForm>
+        </VCardText>
+      </VCard>
+    </VDialog>
+    <!-- End of Edit Dialog  -->
   </template>
 
 
@@ -189,8 +264,8 @@ import { VForm } from 'vuetify/components/VForm';
     const {issueBooks} = storeToRefs(issueBookStore);
 
       // Method used to remove Isssue Book
-	const removeCategory = async (item :any) => {
-		await issueBookStore.remove(item._id);
+	const removeCategory = async (item :any,) => {
+		await issueBookStore.remove(item._id,item);
     deleteDialog.value = false;
 	};
 
@@ -203,7 +278,19 @@ const dataForm = ref({
  // due_Date: new Date('2024-07-25T09:54:17.989Z'),
  due_Date: '',
   employee_Id: null,
+  status:'',
+  return_Remarks:''
 })
+
+const confirmDialog = ref(false)
+const confirmItem = () => {
+  refDataForm.value?.validate().then(valid => {
+    if (valid.valid) {
+      confirmDialog.value = true
+    }
+   
+  })
+}
 
 const editDialog = ref(false)
 let edit_var: any
@@ -226,7 +313,6 @@ const deleteItem = (item: any) => {
 
 
 const validateDataForm =  () => {
-  console.log("dataForm.value : ",dataForm.value)
    refDataForm.value?.validate().then(valid => {
     if (valid.valid) {
       let item : IIssueBook = {
@@ -249,8 +335,12 @@ const validateEditDataForm = () => {
         book_Id : Number(dataForm.value.book_Id) ,
         due_Date : new Date(dataForm.value.due_Date ),
         employee_Id : String(dataForm.value.employee_Id) ,
+        status : String(dataForm.value.status) ,
+        return_Remarks : String(dataForm.value.return_Remarks) ,
         }
         issueBookStore.update(edit_var._id, item)
+        confirmDialog.value = false
+        editDialog.value = false
     }
     else { }
   })
@@ -273,9 +363,7 @@ const search = ref('')
 const resolveStatusColor = (status: string) => {
   if (status === 'Issued')
     return 'success'
-  if (status === 'Completed')
-    return 'warning'
-  if (status === 'Cancelled')
+  if (status === 'Returned')
     return 'error'
 }
 

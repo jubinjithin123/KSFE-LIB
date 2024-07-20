@@ -22,10 +22,10 @@ const authThemeImg = useGenerateImageVariant(
 
 const authThemeMask = useGenerateImageVariant(authV2MaskLight, authV2MaskDark)
 
-const form = ref({
-  email: '',
+const loginform = ref({
+  userName: '',
   password: '',
-  remember: false,
+  remember:''
 })
 
 const isPasswordVisible = ref(false)
@@ -89,7 +89,7 @@ definePageMeta({
       >
         <VCardText>
           <h4 class="text-h4 mb-1">
-            Welcome to {{ themeConfig.app.title }}! 👋🏻
+            Welcome to {{ themeConfig.app.title }} ! 👋🏻
           </h4>
           <p class="mb-0">
             Please sign-in to your account and start the adventure
@@ -101,18 +101,17 @@ definePageMeta({
               <!-- email -->
               <VCol cols="12">
                 <VTextField
-                  v-model="form.email"
+                  v-model="loginform.userName"
                   autofocus
-                  label="Email"
-                  type="email"
-                  placeholder="johndoe@email.com"
+                  label="User Name"
+                  type="text"
                 />
               </VCol>
 
               <!-- password -->
               <VCol cols="12">
                 <VTextField
-                  v-model="form.password"
+                  v-model="loginform.password"
                   label="Password"
                   placeholder="············"
                   :type="isPasswordVisible ? 'text' : 'password'"
@@ -121,16 +120,8 @@ definePageMeta({
                 />
 
                 <div class="d-flex align-center flex-wrap justify-space-between my-5 gap-4">
-                  <VCheckbox
-                    v-model="form.remember"
-                    label="Remember me"
-                  />
-                  <a
-                    class="text-primary"
-                    href="#"
-                  >
-                    Forgot Password?
-                  </a>
+
+
                 </div>
 
                 <VBtn

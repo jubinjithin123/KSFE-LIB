@@ -34,7 +34,7 @@ export const useIssueBookStore = defineStore("issueBooks", {
 			})
       .then(async () => {
         await this.getAllIssueBook();
-        toast.success("This Book Issued Successfully  !");
+        toast.success("Book Issued Successfully !");
       })
       .catch((e: any) => {
         toast.error(e.data.message);
@@ -49,16 +49,17 @@ export const useIssueBookStore = defineStore("issueBooks", {
 			})
 				.then(async () => {
 					await this.getAllIssueBook();
-					toast.success("Updated Successfully");
+					toast.success("Returned Successfully");
 				})
         .catch((e) => {
 					toast.error(e.data.message);
 				});
 		},
 		// delete a IssueBook
-		async remove(id: string) {
+		async remove(id: string, IssueBook: IIssueBook) {
 			await $fetch(`/api/issue_books/${id}`, {
 				method: "DELETE",
+        body: IssueBook,
 			})
 				.catch((e) => {
 					toast.error(e.data.message);

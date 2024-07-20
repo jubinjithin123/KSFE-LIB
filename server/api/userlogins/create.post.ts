@@ -1,3 +1,4 @@
+import * as bcrypt from 'bcrypt';
 import UserLoginModel from "~~/server/models/UserLogin.model";
 import { UserLoginSchema } from "~~/server/validation";
 
@@ -18,17 +19,18 @@ export default defineEventHandler(async (event) => {
 	}
 
   const employeeStatus :any = await UserLoginModel.findOne({ userName: body.userName }).exec();
-  if(employeeStatus)
- {
-  throw createError({
-    message:"This User Already Exist !",
-    statusCode: 400,
-    fatal: false,
-  });
- }
- 
+  if(employeeStatus) {
+      throw createError({
+        message:"This User Already Exist !",
+        statusCode: 400,
+        fatal: false,
+      });
+    }
+    
 	// create Branch
 	try { 
+
+    body.password = await bcrypt.hash( body.password, 10);
 
 		await UserLoginModel.create(body);
 		return { message: "Employee Created" };
