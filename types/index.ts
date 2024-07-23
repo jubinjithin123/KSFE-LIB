@@ -90,19 +90,9 @@ declare global{
 
 
 
-  export interface IUser {
-  id : number;
-  fullName: string;
+  export interface IAuth {
   username: string;
   password: string;
-  avatar: string;
-  email : string;
-  role : string;
-
-  abilityRules:{
-        action: string;
-        subject: string;
-  }
 }
 
   

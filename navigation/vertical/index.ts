@@ -22,13 +22,13 @@ export default [
     to: 'author',
   },
   {
-    title: 'Book',
+    title: 'Books',
     icon: { icon: 'ri-book-open-line' },
     to: 'books',
   },
 
   {
-    title: 'Issue Books',
+    title: 'Issue and Return',
     icon: { icon: 'ri-contacts-book-upload-line' },
     to: 'issue_books',
   },
@@ -43,10 +43,11 @@ export default [
     icon: { icon: 'ri-user-fill' },
     to: 'employees',
   },
-
+/*
   {
     title: 'Branches',
     icon: { icon: 'ri-git-merge-line' },
     to: 'branches',
   },
+  */
 ]
