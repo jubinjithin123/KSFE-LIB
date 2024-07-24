@@ -9,11 +9,11 @@ const schema: mongoose.Schema = new mongoose.Schema(
 		},
 		shelf_name: {
 			type: String,
-			requied: true,
+		//	requied: true,
 		},
 		section_no: {
 			type: Number,
-			required: true,
+		//	required: true,
 		},
     book_name: {
 			type: String,
@@ -33,7 +33,7 @@ const schema: mongoose.Schema = new mongoose.Schema(
 		},
     ISBN: {
 			type: String,
-			required: true,
+		//	required: true,
 		},
     amount: {
 			type: Number,
@@ -45,6 +45,9 @@ const schema: mongoose.Schema = new mongoose.Schema(
 			type: Number,
 		},
     status: {
+			type: String,
+		},
+    edition: {
 			type: String,
 		},
 

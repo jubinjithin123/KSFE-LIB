@@ -35,17 +35,21 @@ export const UniqueIdSchema = Joi.object({
 // Book validation
 export const BookSchema = Joi.object({
   book_Id: Joi.number(),
-  shelf_name: Joi.string().min(3).required(),
-  section_no: Joi.number().required(),
+  shelf_name: Joi.string().allow('').optional(),
+ //shelf_name: Joi.string().min(3).required(), 
+  section_no: Joi.number().allow(null).optional(),
+  //section_no: Joi.number().required(),
   book_name: Joi.string().min(3).required(),
   category_name: Joi.string().min(3).required(),
   author_name: Joi.string().min(3).required(),
   publisher_name: Joi.string().min(3).required(),
-  ISBN: Joi.string().min(3).required(),
-	amount: Joi.number(),
-  no_of_copies: Joi.number(),
+
+  ISBN: Joi.string().allow('').optional(),
+	amount: Joi.number().allow(null).optional(),
+  no_of_copies: Joi.number().allow(null).optional(),
   status : Joi.string().required(),
-  description: Joi.string().allow('').optional()
+  description: Joi.string().allow('').optional(),
+  edition: Joi.string().allow('').optional(),
 });
 
 
@@ -73,7 +77,8 @@ export const UserLoginSchema = Joi.object({
   NAME: Joi.string().min(3).required(), //Branch Name
   designationCode: Joi.number().required(), 
   designationName: Joi.string().min(3).required(), 
-  status: Joi.number().allow(null).optional()
+  status: Joi.number().allow(null).optional(),
+  mobileNo: Joi.string().min(10).max(10).required(),
 });
 
 
@@ -90,6 +95,7 @@ export const IssueBookSchema = Joi.object({
   status : Joi.string(),
   br_code: Joi.number(),
   fine: Joi.number().allow(null).optional(),
+  mobileNo: Joi.string(),
 
   Branch:Joi.object({
         code: Joi.number().required(),

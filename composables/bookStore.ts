@@ -31,12 +31,12 @@ export const useBookStore = defineStore("books", {
 				method: "POST",
 				body: publisher,
 			})
-      .catch((e) => {
-        toast.error(e.data.message);
-      })
       .then(async () => {
         await this.getAllBook();
         toast.success("Book created");
+      })
+      .catch((e) => {
+        toast.error(e.data.message);
       });
   },
 

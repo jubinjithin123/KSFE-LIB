@@ -49,6 +49,9 @@ const schema: mongoose.Schema = new mongoose.Schema(
     fine:{
       type: Number,
     },
+    mobileNo: {
+			type: String,
+		},
 
 	},
 	{ timestamps: true }

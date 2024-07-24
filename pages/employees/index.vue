@@ -86,6 +86,19 @@
                   />
                 </VCol>
 
+                <!-- 👉 Mobile Number -->
+                <VCol
+                  cols="12"
+                  md="6"
+                >
+                <VTextField
+                    v-model="dataForm.mobileNo"
+                    label="Mobile Number"
+                    placeholder="Enter Mobile Number"
+                    :rules="[requiredValidator,lengthEqualValidator(dataForm.mobileNo,10)]"                        
+                  />
+                </VCol>
+
 
                 <!-- 👉 DOB -->
                 <VCol
@@ -232,7 +245,20 @@
         />
         </VCol>
 
-      <VCol
+        <!-- 👉 Mobile Number -->
+        <VCol
+          cols="12"
+          md="6"
+        >
+        <VTextField
+            v-model="dataForm.mobileNo"
+            label="Mobile Number"
+            placeholder="Enter Mobile Number"
+            :rules="[requiredValidator,lengthEqualValidator(dataForm.mobileNo,10)]"                        
+          />
+        </VCol>
+
+             <VCol
                 offset-md="3"
                 cols="12"
                 md="9"
@@ -301,7 +327,8 @@ const dataForm = ref(
     brCode: null,
     NAME: "",
     designationCode: 101,
-    designationName: "KSFE"
+    designationName: "KSFE",
+    mobileNo:""
   },
 )
 
@@ -336,6 +363,7 @@ const validateDataForm =  () => {
         NAME : String(dataForm.value.NAME) ,
         designationCode : Number(dataForm.value.designationCode) ,
         designationName : String(dataForm.value.designationName) ,
+        mobileNo : String(dataForm.value.mobileNo) ,
         }
 
        userLoginStore.create(item);
@@ -357,6 +385,7 @@ const validateEditDataForm = () => {
         NAME : String(dataForm.value.NAME) ,
         designationCode : Number(dataForm.value.designationCode) ,
         designationName : String(dataForm.value.designationName) ,
+        mobileNo : String(dataForm.value.mobileNo) ,
       }
 
       userLoginStore.update(edit_var._id, item)
@@ -370,6 +399,7 @@ const headers = [
   { title: 'EMPLOYEE NAME', key: 'Employee_Name' },
   { title: 'BRANCH CODE', key: 'brCode' },
   { title: 'BRANCH NAME', key: 'NAME' },
+  { title: 'MOBILE NUMBER', key: 'mobileNo' },
   { title: 'ACTIONS', key: 'actions' },
 ]
 

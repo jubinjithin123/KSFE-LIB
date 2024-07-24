@@ -39,7 +39,7 @@
 
   <br>
 
-  <v-card > 
+  <v-card title="Due List"> 
     
     <VRow>
           <VCardText>
@@ -127,6 +127,7 @@ const headers = [
   { title: 'Issue date', key:'issue_Date'},
   { title: 'Due date', key:'due_Date'},
   { title: 'STATUS', key: 'status' },
+  { title: 'MOBILE NUMBER', key: 'mobileNo' },
 ]
 
 const search = ref('')

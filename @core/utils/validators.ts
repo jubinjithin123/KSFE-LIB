@@ -103,3 +103,13 @@ export const alphaDashValidator = (value: unknown) => {
 
   return /^[0-9A-Z_-]*$/i.test(valueAsString) || 'All Character are not valid'
 }
+
+
+// 👉 Length Equal Validator
+export const lengthEqualValidator = (value: unknown, length: number) => {
+  if (isEmpty(value))
+    return true
+
+  return String(value).length  === length || `This field must be ${length} `
+}
+

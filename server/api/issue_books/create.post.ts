@@ -90,6 +90,13 @@ const userStatus :any = await UserLoginModel.findOne({ userName: body.employee_I
           fatal: false,
         });
       }
+      if(!userStatus.mobileNo){
+        throw createError({
+          message:"Mobile Number Required ! Please Update Employee's Mobile Number",
+          statusCode: 400,
+          fatal: false,
+        });
+      }
 
 const branchStatus :any = await BranchModel.findOne({ code: userStatus.brCode }).exec();
       if(!branchStatus){
@@ -115,6 +122,7 @@ const branchStatus :any = await BranchModel.findOne({ code: userStatus.brCode })
       body.employee_Id = userStatus.userName;
       body.employee_Name = userStatus.Employee_Name;
       body.br_code = userStatus.brCode;
+      body.mobileNo = userStatus.mobileNo;
     }
 
   body.status = "Issued";

@@ -43,7 +43,7 @@
                       :items="book_shelves.map(x=> x.shelf_name)"
                       v-model="dataForm.shelf_name"
                       placeholder="Select Shelf Name"
-                      :rules="[requiredValidator]"
+                   
                     />
                     </VCol>
 
@@ -56,7 +56,7 @@
                       v-model="dataForm.section_no"
                       label="Section No"
                       placeholder="Enter total no of sections"
-                      :rules="[requiredValidator,integerValidator]"                      
+                                      
                     />
                   </VCol>
 
@@ -124,7 +124,7 @@
                     v-model="dataForm.ISBN"
                     label="ISBN Number"
                     placeholder="Enter ISBN Number"
-                    :rules="[requiredValidator,lengthValidator(dataForm.ISBN,3)]"                        
+                                         
                   />
                 </VCol>
 
@@ -137,13 +137,14 @@
                     v-model="dataForm.amount"
                     label="Amount"
                     placeholder="Enter Amount"
-                    :rules="[requiredValidator]"                        
+                                    
                   />
                 </VCol>
 
                 <!-- 👉 Description -->
                 <VCol
                   cols="12"
+                  md="6"
                 >
                 <VTextarea
                   v-model="dataForm.description"
@@ -152,6 +153,20 @@
                   auto-grow
                 />
                 </VCol>
+
+                <!-- 👉 Edition -->
+                <VCol
+                  cols="12"
+                  md="6"
+                >
+                <VTextField
+                    v-model="dataForm.edition"
+                    label="Edition"
+                    placeholder="Enter edition"
+                                      
+                  />
+                </VCol>
+
 
                 <VCol offset-md="3"  cols="12"  md="9" class="d-flex gap-4" >                          
                                    <VSpacer />
@@ -479,6 +494,7 @@ const dataForm = ref({
   no_of_copies:1,
   status: 'Available',
   description: '',
+  edition:''
 })
 
 const editDialog = ref(false)
@@ -514,7 +530,8 @@ const validateDataForm =  () => {
         amount :Number(dataForm.value.amount) ,
         no_of_copies : Number(dataForm.value.no_of_copies) ,
         status : dataForm.value.status ,
-        description : dataForm.value.description ,
+        description :String(dataForm.value.description ),
+        edition : String(dataForm.value.edition) ,
         }
 
       bookStore.create(item);
@@ -539,6 +556,7 @@ const validateEditDataForm = () => {
         no_of_copies : Number(dataForm.value.no_of_copies) ,
         status : dataForm.value.status ,
         description : dataForm.value.description ,
+        edition : dataForm.value.edition ,
       }
 
       bookStore.update(edit_var._id, item)
@@ -554,6 +572,7 @@ const headers = [
   { title: 'BOOK NAME', key: 'book_name' },
   { title: 'AUTHOR NAME', key: 'author_name' },
   { title: 'CATEGORY NAME', key: 'category_name' },
+  { title: 'EDITION', key: 'edition' },
   { title: 'STATUS', key: 'status' },
   { title: 'ACTIONS', key: 'actions' },
 ]

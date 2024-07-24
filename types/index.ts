@@ -30,17 +30,18 @@ declare global{
 
   export interface IBook {
     book_Id?: number;
-    shelf_name: string;
-    section_no: number;
+    shelf_name?: string;
+    section_no?: number;
     book_name: string;
     category_name: string;
     author_name: string;
     publisher_name: string;
-    ISBN: string;
-    amount: number;
+    ISBN?: string;
+    amount?: number;
     no_of_copies: number;
     status : string;
     description?: string;
+    edition?: string;
     _id?: string;
   }
 
@@ -66,6 +67,7 @@ declare global{
     designationName: string;
     status?: number;
     _id?: string;
+    mobileNo: string;
   }
 
   export interface IIssueBook {
@@ -79,6 +81,7 @@ declare global{
     employee_Name?: string;
     br_code?: number;
     fine?: number;
+    mobileNo?: string;
     Branch?:{ 
            code:Number,name: String, district: String, contactNumber?: string, status?: number
            parentBranch: { code:Number,name: String, district: String },
@@ -91,8 +94,8 @@ declare global{
 
 
   export interface IAuth {
-  username: string;
-  password: string;
+  username?: string;
+  password?: string;
 }
 
   

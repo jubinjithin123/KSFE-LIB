@@ -35,6 +35,10 @@ const schema: mongoose.Schema = new mongoose.Schema(
 		status: {
 			type: Number,
 		},
+    mobileNo: {
+			type: String,
+			requied: true,
+		},
 	},
 	{ timestamps: true }
 );
