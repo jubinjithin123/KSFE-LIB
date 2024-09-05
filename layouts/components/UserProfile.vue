@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import avatar1 from '@images/avatars/avatar-1.png';
 import { PerfectScrollbar } from 'vue3-perfect-scrollbar';
+import { toast } from "vue3-toastify";
 
 const userProfileList = [
   { type: 'divider' },
@@ -13,7 +14,16 @@ const userProfileList = [
   { type: 'divider' },
 
 ]
+
+toast.success("Login Successfully");
+const { data ,signOut } = useAuth();
+async function handleLogout() {
+  await signOut();
+}
+
+
 </script>
+
 
 <template>
   <VBadge
@@ -60,7 +70,7 @@ const userProfileList = [
             </template>
 
             <h6 class="text-sm font-weight-medium">
-              John Doe
+              Welcome {{ (data?.user as any)?.username }}
             </h6>
             <VListItemSubtitle class="text-capitalize text-disabled">
               Admin
@@ -98,7 +108,7 @@ const userProfileList = [
                 block
                 color="error"
                 append-icon="ri-logout-box-r-line"
-                to="/login"
+                @click="handleLogout"
               >
                 Logout
               </VBtn>

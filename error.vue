@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import type { NuxtError } from 'nuxt/app'
 import miscMaskDark from '@images/misc/misc-mask-dark.png'
 import miscMaskLight from '@images/misc/misc-mask-light.png'
 import tree1 from '@images/misc/tree1.png'
 import tree3 from '@images/misc/tree3.png'
 import misc404 from '@images/pages/404.png'
+import type { NuxtError } from 'nuxt/app'
 
 defineOptions({
   inheritAttrs: false,

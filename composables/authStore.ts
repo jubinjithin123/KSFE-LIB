@@ -6,6 +6,8 @@ interface IState{
     auths: IAuth[],
     authsActual: IAuth | null
   }
+const { signIn ,data} = useAuth();
+const route = useRoute()
 
 export const useAuthStore = defineStore('auths', {
 
@@ -15,6 +17,21 @@ export const useAuthStore = defineStore('auths', {
       }),
     
   actions: {
+
+    async handleLogin(auth: IAuth) {
+      await signIn('credentials', {
+        callbackUrl: '/',
+        auth,
+      })
+      .catch((e) => {
+        console.log("data pinia: ",e.data)
+        toast.error(e.data.message);
+      })
+      .then(async () => {      
+        navigateTo(route.query.to ? String(route.query.to) : '/', { replace: true }) 
+        toast.success("Login Successfully");
+      });
+  },
     
 
     async create(auth: IAuth) {
@@ -26,8 +43,7 @@ export const useAuthStore = defineStore('auths', {
         console.log("data pinia: ",e.data)
         toast.error(e.data.message);
       })
-      .then(async () => {
-       
+      .then(async () => {       
         toast.success("Login Successfully");
       });
   },

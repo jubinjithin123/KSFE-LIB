@@ -1,17 +1,23 @@
 <script setup lang="ts">
 
-import { themeConfig } from '@themeConfig'
+import { themeConfig } from '@themeConfig';
 
-import tree1 from '@images/misc/tree1.png'
-import authV2LoginIllustrationBorderedDark from '@images/pages/auth-v2-login-illustration-bordered-dark.png'
-import authV2LoginIllustrationBorderedLight from '@images/pages/auth-v2-login-illustration-bordered-light.png'
-import authV2LoginIllustrationDark from '@images/pages/auth-v2-login-illustration-dark.png'
-import authV2LoginIllustrationLight from '@images/pages/auth-v2-login-illustration-light.png'
-import authV2MaskDark from '@images/pages/mask-v2-dark.png'
-import authV2MaskLight from '@images/pages/mask-v2-light.png'
-import { VNodeRenderer } from '@layouts/components/VNodeRenderer'
+import type { NuxtError } from 'nuxt/app';
+import { toast } from "vue3-toastify";
 
-const router = useRouter()
+import tree1 from '@images/misc/tree1.png';
+import authV2LoginIllustrationBorderedDark from '@images/pages/auth-v2-login-illustration-bordered-dark.png';
+import authV2LoginIllustrationBorderedLight from '@images/pages/auth-v2-login-illustration-bordered-light.png';
+import authV2LoginIllustrationDark from '@images/pages/auth-v2-login-illustration-dark.png';
+import authV2LoginIllustrationLight from '@images/pages/auth-v2-login-illustration-light.png';
+import authV2MaskDark from '@images/pages/mask-v2-dark.png';
+import authV2MaskLight from '@images/pages/mask-v2-light.png';
+import { VNodeRenderer } from '@layouts/components/VNodeRenderer';
+
+
+import { VForm } from 'vuetify/components/VForm';
+const route = useRoute()
+
 
 const authThemeImg = useGenerateImageVariant(
   authV2LoginIllustrationLight,
@@ -22,18 +28,68 @@ const authThemeImg = useGenerateImageVariant(
 
 const authThemeMask = useGenerateImageVariant(authV2MaskLight, authV2MaskDark)
 
-const loginform = ref({
-  userName: '',
+const errors = ref<Record<string, string | undefined>>({
+  username: undefined,
+  password: undefined,
+})
+
+const refDataForm = ref<VForm>()
+const form = ref({
+  username: '',
   password: '',
-  remember:''
 })
 
 const isPasswordVisible = ref(false)
 
-definePageMeta({
-  layout: 'blank',
 
-})
+ definePageMeta({
+  layout: 'blank',
+  middleware: "guest",
+});
+ 
+
+const { signIn, data: sessionData } = useAuth()
+
+async function handleLogin() {
+    const response = await signIn('credentials', {
+      callbackUrl: '/',
+      redirect: false,
+      ...form.value,
+    })
+
+      // If error is not null => Error is occurred
+  if (response && response.error) {
+   // console.log("response : ",response)
+    toast.error("Invalid Username or password");
+    const apiStringifiedError = response.error
+    const apiError: NuxtError = JSON.parse(apiStringifiedError)
+    errors.value = apiError.data
+    // If err => Don't execute further
+    return
+  }//End of if
+
+
+    // Reset error on successful login
+    errors.value = {}
+  // Update user abilities
+  const { user } = sessionData.value!
+
+  console.log("sessionData.value! : ",user)
+    navigateTo(route.query.to ? String(route.query.to) : '/', { replace: true })
+
+}
+
+
+const validateDataForm =  () => {
+  refDataForm.value?.validate().then(valid => {
+    if (valid.valid) {
+      handleLogin()
+    }
+    else {  }     
+  })
+} // End of validatedataForm()
+
+
 </script>
 
 <template>
@@ -96,27 +152,31 @@ definePageMeta({
           </p>
         </VCardText>
         <VCardText>
-          <VForm @submit.prevent="router.push('/')">
+          <VForm ref="refDataForm" @submit.prevent="validateDataForm" >
             <VRow>
-              <!-- email -->
+              <!-- username -->
               <VCol cols="12">
                 <VTextField
-                  v-model="loginform.userName"
+                  v-model="form.username"
                   autofocus
                   label="User Name"
                   type="text"
+                  :rules="[requiredValidator]"
+                  :error-messages="errors.username"
                 />
               </VCol>
 
               <!-- password -->
               <VCol cols="12">
                 <VTextField
-                  v-model="loginform.password"
+                  v-model="form.password"
                   label="Password"
                   placeholder="············"
                   :type="isPasswordVisible ? 'text' : 'password'"
                   :append-inner-icon="isPasswordVisible ? 'ri-eye-off-line' : 'ri-eye-line'"
                   @click:append-inner="isPasswordVisible = !isPasswordVisible"
+                  :rules="[requiredValidator]"
+                  :error-messages="errors.password"
                 />
 
                 <div class="d-flex align-center flex-wrap justify-space-between my-5 gap-4">
@@ -131,18 +191,6 @@ definePageMeta({
                   Login
                 </VBtn>
               </VCol>
-
-
-              <!-- auth providers 
-              
-              <VCol
-                cols="12"
-                class="text-center"
-              >
-                <AuthProvider />
-              </VCol>
-              
-              -->
 
             </VRow>
           </VForm>

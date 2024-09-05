@@ -89,6 +89,11 @@
 import { storeToRefs } from 'pinia';
 //import { VForm } from 'vuetify/components/VForm';
 
+definePageMeta({
+  middleware: "auth",
+});
+
+
     // Default Issue Book store
     const defaultIssueBookStore = useDefaultIssueBookStore()
     const {getAllDefaultIssueBook, } = defaultIssueBookStore;   

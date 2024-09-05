@@ -1,3 +1,19 @@
+
+<template>
+  <Component
+    v-bind="layoutAttrs"
+    :is="configStore.appContentLayoutNav === AppContentLayoutNav.Vertical ? DefaultLayoutWithVerticalNav : DefaultLayoutWithHorizontalNav"
+  >
+    <slot />
+  </Component>
+</template>
+
+<style lang="scss">
+// As we are using `layouts` plugin we need its styles to be imported
+@use "@layouts/styles/default-layout";
+</style>
+
+
 <script lang="ts" setup>
 import { useConfigStore } from '@core/stores/config';
 import { AppContentLayoutNav } from '@layouts/enums';
@@ -16,17 +32,3 @@ const { layoutAttrs, injectSkinClasses } = useSkins()
 
 injectSkinClasses()
 </script>
-
-<template>
-  <Component
-    v-bind="layoutAttrs"
-    :is="configStore.appContentLayoutNav === AppContentLayoutNav.Vertical ? DefaultLayoutWithVerticalNav : DefaultLayoutWithHorizontalNav"
-  >
-    <slot />
-  </Component>
-</template>
-
-<style lang="scss">
-// As we are using `layouts` plugin we need its styles to be imported
-@use "@layouts/styles/default-layout";
-</style>

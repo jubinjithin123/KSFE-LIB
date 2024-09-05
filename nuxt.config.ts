@@ -33,6 +33,10 @@ export default defineNuxtConfig({
     AUTH_SECRET: process.env.AUTH_SECRET,
     MONGO_URI: process.env.MONGO_URI,
 
+    tokenSecret: process.env.TOKEN_SECRET,
+    tokenExpiration: process.env.TOKEN_EXPIRES,
+    tokenName: process.env.TOKEN_NAME,
+
     // Public keys that are exposed to the client.
     public: {
       apiBaseUrl: process.env.NUXT_PUBLIC_API_BASE_URL || '/api',
@@ -145,9 +149,14 @@ export default defineNuxtConfig({
     transpile: ['vuetify'],
   },
 
-  modules: ['@vueuse/nuxt', '@nuxtjs/device', '@pinia/nuxt',],
+  modules: ['@vueuse/nuxt', '@nuxtjs/device', '@pinia/nuxt', '@sidebase/nuxt-auth'],
 
 
-
+  auth: {
+    baseURL: process.env.AUTH_ORIGIN,
+    provider: {
+      type: "authjs",
+    },
+  },
   
 })
